@@ -2,8 +2,10 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/message", (req, res) => {
-  res.send("Hello World!");
-});
+router.post("/register", (req, res) => {});
+
+router.post("/login", (req, res) => {});
+
+router.post("/logout", (req, res) => {});
 
 export default router;

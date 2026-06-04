@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoute from "./router/authRoutes.js";
+import authRoutes from "./router/authRoutes.js";
+import connectDB from "./config/database.js";
 dotenv.config();
 
 const app = express();
@@ -11,8 +12,18 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT;
 
-app.use("/home", authRoute);
+app.use("/user", authRoutes);
 
-app.listen(port, () => {
-  console.log(`server listening on ${port}`);
-});
+const start = async () => {
+  try {
+    await connectDB();
+    app.listen(port, () => {
+      console.log(`server listening on ${port}`);
+    });
+  } catch (error) {
+    console.log("something went wrong");
+    console.log(error.message);
+  }
+};
+
+start();
