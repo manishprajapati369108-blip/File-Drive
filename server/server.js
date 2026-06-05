@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT;
 
-app.use("/user", authRoutes);
+app.use("/auth", authRoutes);
 
 const start = async () => {
   try {
