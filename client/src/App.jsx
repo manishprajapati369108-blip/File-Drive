@@ -1,12 +1,12 @@
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import Register from "./pages/register.jsx";
 import Login from "./pages/login.jsx";
+import Logout from "./pages/logout.jsx";
 
 function Home() {
   return (
     <div>
       <h1>I'm the PARENT</h1>
-      <Link to="/parent/child">Go to Child Page</Link>
       <Outlet /> {/* ← CHILD GOES HERE */}
       <footer>Parent Footer</footer>
     </div>
@@ -29,7 +29,8 @@ const App = () => {
       <nav>
         <Link to="/">Register</Link>
         <Link to="/login">Login</Link>
-        
+        <Link to="/home/child">Go to Child Page</Link>
+        <Link to="/home/logout">Logout</Link>
       </nav>
 
       <Routes>
@@ -38,6 +39,7 @@ const App = () => {
 
         <Route path="/home" element={<Home />}>
           <Route path="child" element={<Child />} />
+          <Route path="logout" element={<Logout />} />
         </Route>
       </Routes>
     </>

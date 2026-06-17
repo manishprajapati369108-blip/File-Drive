@@ -3,6 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import connectDB from "../config/db.js";
 import User from "../models/user.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 const router = express.Router();
 
 await connectDB();
@@ -13,12 +16,10 @@ router.post("/register", async (req, res) => {
 
     const existingUser = await User.findOne({ email });
 
-    if(!email || !password) {
-        return(
-            res.status(400).json({
-                error: "Email and password are required"
-            })
-        )
+    if (!email || !password) {
+      return res.status(400).json({
+        error: "Email and password are required",
+      });
     }
 
     if (existingUser) {
@@ -48,8 +49,56 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {});
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-router.post("/logout", (req, res) => {});
+    const user = await User.findOne({ email });
+
+    if (!user) {
+       return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+       return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
+
+    const token = await jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "10m" },
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 10 * 60 * 1000,
+    }); 
+
+    res.json({
+      message: "Login Succcessful! You are logged In",
+      email: user.email,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log("Something is Wrong !!!");
+    res.status(500).json({
+      error: "Server error",
+    });
+  }
+});
+
+router.post("/logout", (req, res) => {
+
+  res.clearCookie("token");
+  res.json({ message: "LoggedOut successfully"})
+
+
+});
 
 export default router;

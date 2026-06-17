@@ -52,9 +52,8 @@ const Register = () => {
 
       {message && <p>{message}</p>}
       <Link to="/login">Login</Link> {" "}
-      <Link to="/home">Home</Link>
     </div>
-
+ 
 
 );
 };
