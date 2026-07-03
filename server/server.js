@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./router/authRoutes.js";
+import forgotPassword from "./router/forgotPassword.js"
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(cookieParser());
 const port = process.env.PORT;
 
 app.use("/auth", authRoutes);
+app.use("/forgot-password", forgotPassword)
 
 const start = async () => {
   try {
