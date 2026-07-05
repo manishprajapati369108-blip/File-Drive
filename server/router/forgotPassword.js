@@ -41,7 +41,32 @@ router.post("/api/forgot-password", async (req, res) => {
   }
 });
 
-router.post("/api/verify-otp", async (req, res) => {
+app.post("/api/verify-otp", async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({
+      email,
+      resetOTP: otp,
+      resetOTPExpires: { $gt: newDate() },
+    });
+    if (!user) {
+      return res.status(400).json({ error: "invalid or expired OTP" });
+    }
+
+    //generate temporary token
+
+    const token = generateRandom(32, "alphaNumeric");
+    user.resetToken = token;
+    user.resetTokenExpires = new Date(Date.now() + 10 * 60 * 1000);
+    await user.save();
+    res.json({ tempToken: token });
+  } catch (error) {
+    res.status(500).json({ error: "something went wrong" });
+  }
+});
+
+router.post("/api/reset-password", async (req, res) => {
   try {
     const { tempToken, newPassword } = req.body;
 
