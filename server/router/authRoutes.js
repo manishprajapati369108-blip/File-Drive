@@ -10,6 +10,9 @@ const router = express.Router();
 
 await connectDB();
 
+
+// server.js - Add this before app.listen
+
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
