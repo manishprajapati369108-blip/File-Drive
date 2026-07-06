@@ -51,7 +51,7 @@ const Login = () => {
         <button onClick={handleLogin}>Register</button>{" "}
         {message && <p>{message}</p>}
 
-        <Link to="/forgot">Forgot Password</Link>
+        <Link to="/forgot-password">Forgot Password</Link>
         <Link to="/register">Register</Link>
       </div> 
     </>

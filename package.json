@@ -1,1 +1,13 @@
-{"scripts":{"server":"cd server && npm start","client":"cd client && npm run dev","dev":"concurrently \"npm run server\" \"npm run client\""},"devDependencies":{"concurrently":"^9.2.1"},"dependencies":{"react-axios":"^2.0.6"}}
+{
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "react-axios": "^2.0.6"
+  }
+}

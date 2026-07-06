@@ -2,6 +2,7 @@ import { Routes, Route, Link, Outlet } from "react-router-dom";
 import Register from "./pages/register.jsx";
 import Login from "./pages/login.jsx";
 import Logout from "./pages/logout.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 
 function Home() {
   return (
@@ -36,6 +37,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route path="/home" element={<Home />}>
           <Route path="child" element={<Child />} />

@@ -16,7 +16,7 @@ app.use(cookieParser());
 const port = process.env.PORT;
 
 app.use("/auth", authRoutes);
-app.use("/forgot-password", forgotPassword)
+app.use("/forgot", forgotPassword)
 
 const start = async () => {
   try {

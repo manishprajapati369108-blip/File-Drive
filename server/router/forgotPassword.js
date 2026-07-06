@@ -1,13 +1,13 @@
-import transporter from "../services/emailService";
+import transporter from "../services/emailService.js";
 import generateRandom from "crypto-randomizer";
 import express from "express";
 import User from "../models/user.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const router = express.router;
+const router = express.Router();
 
-router.post("/api/forgot-password", async (req, res) => {
+router.post("/forgot-password", async (req, res) => {
   try {
     const { email } = req.body;
 
@@ -41,14 +41,14 @@ router.post("/api/forgot-password", async (req, res) => {
   }
 });
 
-app.post("/api/verify-otp", async (req, res) => {
+router.post("/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
 
     const user = await User.findOne({
       email,
       resetOTP: otp,
-      resetOTPExpires: { $gt: newDate() },
+      resetOTPExpires: { $gt: new Date() },
     });
     if (!user) {
       return res.status(400).json({ error: "invalid or expired OTP" });
@@ -66,13 +66,13 @@ app.post("/api/verify-otp", async (req, res) => {
   }
 });
 
-router.post("/api/reset-password", async (req, res) => {
+router.post("/reset-password", async (req, res) => {
   try {
     const { tempToken, newPassword } = req.body;
 
     const user = await User.findOne({
       resetToken: tempToken,
-      resetTokenExpires: { $gt: newDate() },
+      resetTokenExpires: { $gt: new Date () },
     });
     if (!user) {
       return res.status(400).json({ error: "Invalid or expired session" });
