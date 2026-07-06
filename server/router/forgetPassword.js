@@ -9,9 +9,13 @@ dotenv.config();
 
 const router = express.Router();
 
-
 // ===== 1. FORGOT PASSWORD - Send OTP =====
 router.post("/forget-password", async (req, res) => {
+  return res.json({ 
+    message: "✅ Forgot password route is working!",
+    receivedData: req.body,
+    timestamp: new Date().toISOString()
+  });
   try {
     console.log("📩 Received forgot-password request");
     const { email } = req.body;
