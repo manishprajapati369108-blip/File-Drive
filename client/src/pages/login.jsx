@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post("/api/auth/login", userData, {
+      const response = await axios.post("api/auth/login", userData, {
         withCredentials: true,
       });
 
@@ -48,11 +48,11 @@ const Login = () => {
           placeholder="Password"
           onChange={(e) => setLoginPassword(e.target.value)}
         />
-        <button onClick={handleLogin}>Register</button>{" "}
+        <button onClick={handleLogin}>Login</button>{" "}
         {message && <p>{message}</p>}
 
-        <Link to="/forgot-password">Forgot Password</Link>
-        <Link to="/register">Register</Link>
+        <Link to="/forget-password">Forget Password</Link>
+        <Link to="/register">register</Link>
       </div> 
     </>
   );

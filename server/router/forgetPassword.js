@@ -11,11 +11,6 @@ const router = express.Router();
 
 // ===== 1. FORGOT PASSWORD - Send OTP =====
 router.post("/forget-password", async (req, res) => {
-  return res.json({ 
-    message: "✅ Forgot password route is working!",
-    receivedData: req.body,
-    timestamp: new Date().toISOString()
-  });
   try {
     console.log("📩 Received forgot-password request");
     const { email } = req.body;
@@ -60,19 +55,18 @@ router.post("/forget-password", async (req, res) => {
     console.log("📧 Email sent successfully");
 
     res.json({ message: "OTP sent to your email" });
-   
   } catch (error) {
     // ✅ Detailed error logging
     console.error("❌ ERROR in forgot-password:");
     console.error("📧 Error message:", error.message);
     console.error("📧 Error stack:", error.stack);
     console.error("📧 Full error:", error);
-    
+
     // Send detailed error to frontend
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Something went wrong",
       details: error.message,
-      stack: error.stack // Remove this in production!
+      stack: error.stack, // Remove this in production!
     });
   }
 });
@@ -109,7 +103,9 @@ router.post("/verify-otp", async (req, res) => {
     res.json({ tempToken: token });
   } catch (error) {
     console.error("❌ ERROR in verify-otp:", error.message);
-    res.status(500).json({ error: "Something went wrong", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Something went wrong", details: error.message });
   }
 });
 
@@ -124,7 +120,9 @@ router.post("/reset-password", async (req, res) => {
     }
 
     if (newPassword.length < 8) {
-      return res.status(400).json({ error: "Password must be at least 8 characters" });
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 8 characters" });
     }
 
     const user = await User.findOne({
@@ -148,7 +146,9 @@ router.post("/reset-password", async (req, res) => {
     res.json({ message: "Password reset successful!" });
   } catch (error) {
     console.error("❌ ERROR in reset-password:", error.message);
-    res.status(500).json({ error: "Something went wrong", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Something went wrong", details: error.message });
   }
 });
 
@@ -189,7 +189,9 @@ router.post("/resend-otp", async (req, res) => {
     res.json({ message: "New OTP sent successfully" });
   } catch (error) {
     console.error("❌ ERROR in resend-otp:", error.message);
-    res.status(500).json({ error: "Something went wrong", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Something went wrong", details: error.message });
   }
 });
 

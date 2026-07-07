@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
-const ForgotPassword = () => {
+const ForgetPassword = () => {
   // States
   const [step, setStep] = useState("email"); // email | otp | password | success
   const [email, setEmail] = useState("");
@@ -19,13 +19,13 @@ const ForgotPassword = () => {
   // ===== SEND OTP =====
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true);                   
     setError("");
     setMessage("");
 
     try {
       const res = await axios.post(
-        `api/forgot/forgot-password`,
+        `api/otp/forget-password`,
         { email }
       );
       setMessage(res.data.message);
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
 
     try {
       const res = await axios.post(
-        `/api/forgot/verify-otp`,
+        `/api/otp/verify-otp`,
         {
           email,
           otp: otpValue,
@@ -86,7 +86,7 @@ const ForgotPassword = () => {
 
     try {
       await axios.post(
-        `/api/forgot/reset-password`,
+        `/api/otp/reset-password`,
         {
           tempToken,
           newPassword,
@@ -146,7 +146,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       await axios.post(
-        `/api/forgot/resend-otp`,
+        `/api/otp/resend-otp`,
         { email }
       );
       setMessage("New OTP sent successfully!");
@@ -292,4 +292,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ForgetPassword;
