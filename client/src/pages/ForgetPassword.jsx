@@ -19,15 +19,12 @@ const ForgetPassword = () => {
   // ===== SEND OTP =====
   const handleSendOTP = async (e) => {
     e.preventDefault();
-    setLoading(true);                   
+    setLoading(true);
     setError("");
     setMessage("");
 
     try {
-      const res = await axios.post(
-        `api/otp/forget-password`,
-        { email }
-      );
+      const res = await axios.post(`api/otp/forget-password`, { email });
       setMessage(res.data.message);
       setStep("otp");
       startTimer();
@@ -48,13 +45,10 @@ const ForgetPassword = () => {
     setMessage("");
 
     try {
-      const res = await axios.post(
-        `/api/otp/verify-otp`,
-        {
-          email,
-          otp: otpValue,
-        }
-      );
+      const res = await axios.post(`/api/otp/verify-otp`, {
+        email,
+        otp: otpValue,
+      });
       setTempToken(res.data.tempToken);
       setMessage("OTP verified!");
       setStep("password");
@@ -85,13 +79,10 @@ const ForgetPassword = () => {
     setMessage("");
 
     try {
-      await axios.post(
-        `/api/otp/reset-password`,
-        {
-          tempToken,
-          newPassword,
-        }
-      );
+      await axios.post(`/api/otp/reset-password`, {
+        tempToken,
+        newPassword,
+      });
       setMessage("Password reset successful!");
       setStep("success");
       setTimeout(() => {
@@ -145,10 +136,7 @@ const ForgetPassword = () => {
     if (timer > 0) return;
     setLoading(true);
     try {
-      await axios.post(
-        `/api/otp/resend-otp`,
-        { email }
-      );
+      await axios.post(`/api/otp/resend-otp`, { email });
       setMessage("New OTP sent successfully!");
       startTimer();
       setOtp(["", "", "", "", "", ""]);
@@ -212,7 +200,8 @@ const ForgetPassword = () => {
         {step === "otp" && (
           <div className="space-y-4">
             <p className="text-center text-gray-600">
-              Enter 6-digit code sent to <span className="font-medium">{email}</span>
+              Enter 6-digit code sent to{" "}
+              <span className="font-medium">{email}</span>
             </p>
             <div className="flex gap-2 justify-center">
               {otp.map((digit, index) => (
@@ -229,6 +218,13 @@ const ForgetPassword = () => {
                 />
               ))}
             </div>
+            <button
+              onClick={handleVerifyOTP}
+              disabled={loading || otp.some((d) => d === "")}
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition font-medium"
+            >
+              {loading ? "Verifying..." : "Verify OTP"}
+            </button>
             <button
               onClick={handleResend}
               disabled={timer > 0 || loading}
@@ -267,7 +263,11 @@ const ForgetPassword = () => {
             />
             <button
               type="submit"
-              disabled={loading || newPassword.length < 8 || newPassword !== confirmPassword}
+              disabled={
+                loading ||
+                newPassword.length < 8 ||
+                newPassword !== confirmPassword
+              }
               className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition font-medium"
             >
               {loading ? "Resetting..." : "Reset Password"}

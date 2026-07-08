@@ -94,7 +94,7 @@ router.post("/verify-otp", async (req, res) => {
     }
 
     // Generate temporary token
-    const token = generateRandom(32, "alphanumeric");
+    const token = generateRandom(32, "alphaNumeric");
     user.resetToken = token;
     user.resetTokenExpires = new Date(Date.now() + 10 * 60 * 1000);
     await user.save();
