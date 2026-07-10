@@ -5,6 +5,7 @@ import authRoutes from "./router/authRoutes.js";
 import forgetPassword from "./router/forgetPassword.js"
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
+import fileStorage from "./router/fileStorage.js";
 dotenv.config();
 
 const app = express();
@@ -16,7 +17,8 @@ app.use(cookieParser());
 const port = process.env.PORT;
  
 app.use("/auth", authRoutes);
-app.use("/otp", forgetPassword)
+app.use("/otp", forgetPassword);
+app.use("/file", fileStorage)
 
 const start = async () => {
   try {
