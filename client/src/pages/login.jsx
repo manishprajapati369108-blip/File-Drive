@@ -21,6 +21,14 @@ const Login = () => {
         withCredentials: true,
       });
 
+      if(response.data.success) {
+        console.log(response.data.message);
+      }
+
+      const token = response.data.token;
+
+      localStorage.setItem("token", token);
+
       setMessage(response?.data?.message);
 
       setTimeout( () => {

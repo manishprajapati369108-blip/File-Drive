@@ -81,12 +81,15 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 10 * 60 * 1000,
-    }); 
+    });
 
     res.json({
+      success: true,
       message: "Login Succcessful! You are logged In",
       email: user.email,
+      token: token,
     });
+    
   } catch (error) {
     console.log(error);
     console.log("Something is Wrong !!!");

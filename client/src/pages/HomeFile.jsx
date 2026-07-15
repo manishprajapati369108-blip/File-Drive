@@ -1,14 +1,31 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-import DropBox from "../components/DropBox";
-import SavedFile from "../components/SavedFile";
+import { useState } from "react";
+import DropBox from "/components/DropBox";
+import { useNavigate } from "react-router-dom";
 
 const HomeFile = () => {
+  const navigate = useNavigate();
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleUploadSuccess = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
 
   return (
-  <>
-     
-  </>
+    <>
+      <DropBox onUploadSuccess={handleUploadSuccess} />
+
+      <button
+        onClick={() =>
+          navigate("/saved-file", {
+            state: {
+              refreshKey,
+            },
+          })
+        }
+      >
+        Show Uploaded files
+      </button>
+    </>
   );
 };
 

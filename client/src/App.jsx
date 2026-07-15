@@ -20,9 +20,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/home" element={<HomeFile />}>
-          <Route path="SavedFile" element={<SavedFile />} />
-        </Route>
+        <Route path="/home" element={<HomeFile />} />
+        <Route path="/saved-file" element={<SavedFile />} />
       </Routes>
     </>
   );

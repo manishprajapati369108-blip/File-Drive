@@ -1,3 +1,4 @@
+import { success } from "zod";
 import {
   storageFile,
   viewFile,
@@ -9,7 +10,11 @@ import {
 const upload = async (req, res) => {
   try {
     const result = await storageFile(req.file);
-    res.status(201).json(result);
+    
+    res.status(201).json({
+      success : true,
+      message :result
+    })
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
