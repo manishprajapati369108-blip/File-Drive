@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DropBox from "/components/DropBox";
+import DropBox from "../components/DropBox";
 import { useNavigate } from "react-router-dom";
 
 const HomeFile = () => {

@@ -6,13 +6,7 @@ const DropBox = ({ onUploadSuccess }) => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
-  const handleFileChange = (e) => {
-    const selectedFiles = e.target.files;
-
-    if (selectedFiles && selectedFiles.length > 0) {
-      handleUpload(selectedFiles);
-    }
-  };
+ 
 
   const handleUpload = async (selectedFiles) => {
     // ✅ Check if files exist
@@ -38,7 +32,6 @@ const DropBox = ({ onUploadSuccess }) => {
       const token = localStorage.getItem("token");
       const response = await axios.post("/api/file/upload", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
         onUploadProgress: (progressEvent) => {
@@ -67,8 +60,17 @@ const DropBox = ({ onUploadSuccess }) => {
     } catch (error) {
       console.log(error);
       alert(error.response?.data?.error || "Upload failed");
+      console.log(error.response?.data?.error || "Upload failed")
     } finally {
       setUploading(false);
+    }
+  };
+
+   const handleFileChange = (e) => {
+    const selectedFiles = e.target.files;
+
+    if (selectedFiles && selectedFiles.length > 0) {
+      handleUpload(selectedFiles);
     }
   };
 

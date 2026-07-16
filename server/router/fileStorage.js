@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.post("/upload", uploadMiddleware.array("file"), upload);
+router.post("/upload", uploadMiddleware.array("files"), upload);
 router.get("/view", view);
 router.get("/download", download);
 router.delete("/remove-one", removeOne);

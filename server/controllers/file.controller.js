@@ -9,11 +9,14 @@ import {
 
 const upload = async (req, res) => {
   try {
-    const result = await storageFile(req.file);
     
+    const paths = await Promise.all(
+      req.files.map((file) => storageFile(file))
+    ) 
+
     res.status(201).json({
       success : true,
-      message :result
+      message : paths
     })
   } catch (error) {
     res.status(500).json({ error: error.message });
