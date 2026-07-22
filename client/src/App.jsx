@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import Register from "./pages/register.jsx";
 import Login from "./pages/login.jsx";
 import Logout from "./pages/logout.jsx";
@@ -9,12 +9,7 @@ import SavedFile from "./components/SavedFile.jsx";
 const App = () => {
   return (
     <>
-      <nav>
-        <Link to="/">Register</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/logout">Logout</Link>
-      </nav>
-
+      
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />

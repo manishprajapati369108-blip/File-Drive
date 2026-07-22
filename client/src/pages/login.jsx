@@ -48,12 +48,14 @@ const Login = () => {
           type="email"
           value={loginEmail}
           placeholder="Email"
+          className="text-black"
           onChange={(e) => setLoginEmail(e.target.value)}
         />
         <input
           type="password"
           value={loginPassword}
           placeholder="Password"
+          className="text-black"
           onChange={(e) => setLoginPassword(e.target.value)}
         />
         <button onClick={handleLogin}>Login</button>{" "}

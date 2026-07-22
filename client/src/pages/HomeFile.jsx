@@ -12,9 +12,10 @@ const HomeFile = () => {
 
   return (
     <>
+     
       <DropBox onUploadSuccess={handleUploadSuccess} />
 
-      <button
+      <button 
         onClick={() =>
           navigate("/saved-file", {
             state: {

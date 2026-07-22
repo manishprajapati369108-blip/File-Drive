@@ -6,8 +6,6 @@ const DropBox = ({ onUploadSuccess }) => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
- 
-
   const handleUpload = async (selectedFiles) => {
     // ✅ Check if files exist
     if (!selectedFiles || selectedFiles.length === 0) return;
@@ -60,18 +58,18 @@ const DropBox = ({ onUploadSuccess }) => {
     } catch (error) {
       console.log(error);
       alert(error.response?.data?.error || "Upload failed");
-      console.log(error.response?.data?.error || "Upload failed")
+      console.log(error.response?.data?.error || "Upload failed");
     } finally {
       setUploading(false);
     }
   };
 
-   const handleFileChange = (e) => {
-    const selectedFiles = e.target.files;
-
-    if (selectedFiles && selectedFiles.length > 0) {
-      handleUpload(selectedFiles);
-    }
+  const handleFileChange = async (e) => {
+    const newFiles = Array.from(e.target.files);
+    //prev or any parameter in state set state variable is always calling current state value
+    
+    
+    handleUpload(newFiles);
   };
 
   return (

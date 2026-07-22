@@ -12,6 +12,10 @@ export default defineConfig({
     port: 4000,
     strictPort: true,
     open: true,
+     allowedHosts: [
+      'kabob-plywood-deflector.ngrok-free.dev',
+      '.ngrok-free.dev'      // This allows ANY ngrok subdomain (recommended)
+    ], // proxy means middle man
     proxy: {
       "/api": {
         target: "http://localhost:5000",

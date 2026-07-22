@@ -7,8 +7,15 @@ const supabase = createClient(
   process.env.SUPABASE_SECRET_KEY,
 );
 
-const storageFile = async (file) => {
-  const filePath = `uploads/${Date.now()}-${file.originalname}`;
+// ✅ FIXED: Upload saves in user's folder
+const storageFile = async (file, userId) => {
+  if (!userId) {
+    throw new Error("User ID is required");
+  }
+
+  // ✅ Use user folder
+  const filePath = `uploads/${userId}/${Date.now()}-${file.originalname}`;
+  
   const { data, error } = await supabase.storage
     .from("filedrive")
     .upload(filePath, file.buffer, {
@@ -18,6 +25,30 @@ const storageFile = async (file) => {
   if (error) throw error;
 
   return data.path;
+};
+
+// ✅ FIXED: fileList filters by user
+const fileList = async (userId) => {
+  if (!userId) {
+    return [];
+  }
+
+  const { data: files, error } = await supabase.storage
+    .from("filedrive")
+    .list(`uploads/${userId}`);  // ← Only this user's folder!
+
+  if (error) {
+    throw error;
+  }
+
+  return files.map(file => ({
+    id: file.id,
+    name: file.name,
+    filePath: `uploads/${userId}/${file.name}`,
+    size: file.metadata?.size || 0,
+    type: file.metadata?.mimetype || 'unknown',
+    created_at: file.created_at
+  }));
 };
 
 const viewFile = async (savedPath) => {
@@ -75,4 +106,4 @@ const removeAllFile = async () => {
   return data;
 };
 
-export { storageFile, viewFile, downloadFile, removeOneFile, removeAllFile };
+export { storageFile, fileList, viewFile, downloadFile, removeOneFile, removeAllFile };
