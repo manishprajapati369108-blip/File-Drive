@@ -10,7 +10,6 @@ const router = express.Router();
 
 await connectDB();
 
-
 // server.js - Add this before app.listen
 
 router.post("/register", async (req, res) => {
@@ -59,7 +58,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-       return res.status(401).json({
+      return res.status(401).json({
         message: "Invalid email or password",
       });
     }
@@ -67,7 +66,7 @@ router.post("/login", async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-       return res.status(401).json({
+      return res.status(401).json({
         message: "Invalid email or password",
       });
     }
@@ -80,20 +79,20 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 30 *24* 60 *60 * 1000,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
     res.json({
       success: true,
       message: "Login Succcessful! You are logged In",
       email: user.email,
-      token: token,
-      user : {
+      user: {
         id: user._id,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
-    
   } catch (error) {
     console.log(error);
     console.log("Something is Wrong !!!");
@@ -104,11 +103,18 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
+   console.log("LOGOUT ROUTE HIT");
+  console.log("Cookies:", req.cookies);
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    path: "/",
+  });
 
-  res.clearCookie("token");
-  res.json({ message: "LoggedOut successfully"})
-
-
+  res.status(200).json({ 
+    success: true,
+    message: "LoggedOut successfully" });
 });
 
 export default router;

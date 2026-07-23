@@ -6,7 +6,7 @@ import { FcImageFile } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import OptionButton from "./buttons/OptionButton";
 import { useFiles } from "../context/useFiles.jsx";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar"
 
 const SavedFile = () => {
   const { files, setFiles }  = useFiles();
@@ -26,11 +26,9 @@ const SavedFile = () => {
         setLoading(true);
         setError("");
 
-        const token = localStorage.getItem("token");
+        
         const response = await axios.get(`/api/file/list`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         }); 
 
         if (response.data.success) {

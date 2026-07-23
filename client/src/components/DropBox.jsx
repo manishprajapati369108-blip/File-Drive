@@ -13,7 +13,7 @@ const DropBox = ({ onUploadSuccess }) => {
     // ✅ Check TOTAL combined size
     if (selectedFiles.size > 10 * 1024 * 1024) {
       alert(
-        `Total file size exceeds 10MB limit! (${(selectedFiles.size / 1024 / 1024).toFixed(2)}MB)`,
+        `Total file size exceeds 10MB limit! (${(selectedFiles.size / 1024 / 1024).toFixed(2)}MB)`
       );
       return;
     }
@@ -27,15 +27,14 @@ const DropBox = ({ onUploadSuccess }) => {
     setProgress(0);
 
     try {
-      const token = localStorage.getItem("token");
+    
+
       const response = await axios.post("/api/file/upload", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
             const percent = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total,
+              (progressEvent.loaded * 100) / progressEvent.total
             );
             setProgress(percent);
           }
@@ -53,6 +52,7 @@ const DropBox = ({ onUploadSuccess }) => {
         if (onUploadSuccess) {
           onUploadSuccess();
         }
+
         alert("File uploaded successfully!");
       }
     } catch (error) {
@@ -66,21 +66,18 @@ const DropBox = ({ onUploadSuccess }) => {
 
   const handleFileChange = async (e) => {
     const newFiles = Array.from(e.target.files);
-    //prev or any parameter in state set state variable is always calling current state value
-    
-    
     handleUpload(newFiles);
   };
 
   return (
-    <div className="flex items-center justify-center w-full">
+    <div className="flex items-center justify-center w-full px-4 py-10 -mt-50">
       <label
         htmlFor="dropzone-file"
-        className="flex flex-col items-center justify-center w-full h-64 bg-neutral-secondary-medium border border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium"
+        className="flex flex-col items-center justify-center w-full max-w-3xl h-80 bg-white border-2 border-dashed border-blue-400 rounded-2xl shadow-lg cursor-pointer hover:border-blue-600 hover:bg-blue-50 transition-all duration-300"
       >
-        <div className="flex flex-col items-center justify-center text-body pt-5 pb-6">
+        <div className="flex flex-col items-center justify-center px-6 py-8 text-center text-gray-700">
           <svg
-            className="w-8 h-8 mb-4"
+            className="w-12 h-12 mb-4 text-blue-600"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -97,21 +94,25 @@ const DropBox = ({ onUploadSuccess }) => {
             />
           </svg>
 
-          <p className="mb-2 text-sm">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop
+          <p className="mb-2 text-lg text-gray-800">
+            <span className="font-bold text-blue-600">Click to upload</span> or
+            drag and drop
           </p>
-          <p className="text-xs">Multiple files allowed (Total max 10MB)</p>
+
+          <p className="text-sm text-gray-500">
+            Multiple files allowed (Total max 10MB)
+          </p>
 
           {uploading && (
-            <div className="w-full mt-4">
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="w-full mt-6">
+              <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300"
+                  className="h-3 rounded-full bg-gradient from-blue-500 to-indigo-600 transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <p className="text-xs text-center mt-1 text-gray-600">
+
+              <p className="mt-2 text-sm font-medium text-gray-700">
                 {progress}%
               </p>
             </div>

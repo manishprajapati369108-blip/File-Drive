@@ -1,41 +1,41 @@
-// middleware/auth.js
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 export const protect = async (req, res, next) => {
   try {
-    // ✅ Get token from header
-    const authHeader = req.headers.authorization;
-    console.log("🔑 Auth Header:", authHeader);
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      console.log("❌ No token provided");
-      return res.status(401).json({ 
+    let token;
+
+    // Get token from cookie
+    if (req.cookies.token) {
+      token = req.cookies.token;
+    }
+
+    // Optional: also allow Authorization header
+    else if (req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({
         success: false,
-        error: 'Not authorized, no token' 
+        error: "Not authorized, no token",
       });
     }
 
-    const token = authHeader.split(' ')[1];
-    console.log("🔑 Token:", token.substring(0, 20) + "...");
-    
-    // ✅ Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("✅ Decoded token:", decoded);
-    
-    // ✅ Attach user to request
+
     req.user = {
-      id: decoded.userId,  // ← Make sure this matches your JWT
-      email: decoded.email
+      id: decoded.userId,
+      email: decoded.email,
     };
-    
-    console.log("✅ User attached:", req.user);
+
     next();
-    
+
   } catch (error) {
-    console.error("❌ Auth error:", error);
-    res.status(401).json({ 
+    console.error(error);
+
+    res.status(401).json({
       success: false,
-      error: 'Invalid token' 
+      error: "Invalid token",
     });
   }
-};  
+};

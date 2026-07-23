@@ -12,14 +12,11 @@ const OptionButton = ({ file, onDelete }) => {
     }
 
     try {
-      const token = await localStorage.getItem("token");
 
       const response = await axios.get(
         `/api/file/view/${encodeURIComponent(file.filePath)}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+         withCredentials: true,
         },
       );
 
@@ -43,14 +40,12 @@ const OptionButton = ({ file, onDelete }) => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      
 
       const response = await axios.get(
         `/api/file/download/${encodeURIComponent(file.filePath)}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
           responseType: "blob", // ← Important for file download!
         },
       );
@@ -89,14 +84,12 @@ const OptionButton = ({ file, onDelete }) => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+     
 
       await axios.delete(
         `/api/file/remove-one/${encodeURIComponent(file.filePath)}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         },
       );
 

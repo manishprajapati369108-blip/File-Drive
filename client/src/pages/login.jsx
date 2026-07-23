@@ -20,50 +20,77 @@ const Login = () => {
       const response = await axios.post("api/auth/login", userData, {
         withCredentials: true,
       });
-
-      if(response.data.success) {
+      
+      console.log(response.data)
+      if (response.data.success) {
         console.log(response.data.message);
       }
 
-      const token = response.data.token;
-
-      localStorage.setItem("token", token);
-
       setMessage(response?.data?.message);
 
-      setTimeout( () => {
+      setTimeout(() => {
         navigate("/home");
       }, 3000);
-
     } catch (error) {
       console.log(error);
-      setMessage(error.response?.data?.message || "Invalid credentials")
+      setMessage(error.response?.data?.message || "Invalid credentials");
     }
   };
+
   return (
     <>
-      <div>
-        <h1>Login</h1>
-        <input
-          type="email"
-          value={loginEmail}
-          placeholder="Email"
-          className="text-black"
-          onChange={(e) => setLoginEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          value={loginPassword}
-          placeholder="Password"
-          className="text-black"
-          onChange={(e) => setLoginPassword(e.target.value)}
-        />
-        <button onClick={handleLogin}>Login</button>{" "}
-        {message && <p>{message}</p>}
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-5">
+          <h1 className="text-3xl font-bold text-center text-blue-600">
+            Login
+          </h1>
 
-        <Link to="/forget-password">Forget Password</Link>
-        <Link to="/register">register</Link>
-      </div> 
+          <input
+            type="email"
+            value={loginEmail}
+            placeholder="Email"
+            className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setLoginEmail(e.target.value)}
+          />
+
+          <input
+            type="password"
+            value={loginPassword}
+            placeholder="Password"
+            className="text-black w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setLoginPassword(e.target.value)}
+          />
+
+          <button
+            onClick={handleLogin}
+            className="bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-200 active:scale-95"
+          >
+            Login
+          </button>
+
+          {message && (
+            <p className="text-center text-green-600 font-medium">
+              {message}
+            </p>
+          )}
+
+          <div className="flex justify-between text-sm">
+            <Link
+              to="/forget-password"
+              className="text-blue-600 hover:underline"
+            >
+              Forget Password
+            </Link>
+
+            <Link
+              to="/"
+              className="text-blue-600 hover:underline"
+            >
+              Register
+            </Link>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
