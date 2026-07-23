@@ -154,7 +154,7 @@ const ForgetPassword = () => {
 
   // ===== RENDER =====
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 text-black">
       <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           {step === "email" && "Reset Password"}
