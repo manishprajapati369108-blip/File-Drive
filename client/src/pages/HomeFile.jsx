@@ -15,7 +15,7 @@ const HomeFile = () => {
      
       <DropBox onUploadSuccess={handleUploadSuccess} />
 
-      <button 
+      <button className 
         onClick={() =>
           navigate("/saved-file", {
             state: {

@@ -50,6 +50,11 @@ const SavedFile = () => {
     loadFiles();
   }, [refreshKey, setFiles]);
 
+  const removeFile = (filePath) => {
+    setFiles((prev) => 
+      prev.filter((file) => file.filePath !== filePath ));
+  };
+
   if (error) return <div className="p-4 text-red-600">{error}</div>;
 
   return (
@@ -80,18 +85,19 @@ const SavedFile = () => {
         </div>
       ) : (
         <div className="space-y-2 flex flex-col items-center">
-          {files.map((file) => (
+          {files.map((file) => ( 
             <div
               key={file.name}
-              className="flex items-center gap-5 p-3 bg-white border rounded-lg shadow-sm w-115 h-16 md:w-150 lg:w-250"
+              className="flex items-center gap-5 p-3 bg-white border rounded-lg shadow-sm w-90 h-16 md:w-150 lg:w-250"
             >
               <span className="text-2xl ">
-                {file.name?.startsWith("image") ? "📎": <FcImageFile /> }
+                <FcImageFile /> 
               </span>
-              <div className="flex-1 text-[#0808ff]">
-                <p className="font-medium">{file.name}</p>
+              <div className="flex-1 min-w-0 text-[#0808ff]">
+                <p className="font-medium truncate">{file.originalname}</p>
               </div>
-              <span className="mr-3"><OptionButton  key={file.id} file={file}/></span>
+              <span className="mr-3"><OptionButton  key={file.id} file={file} onDelete={removeFile} /></span>
+              
             </div>
           ))}
         </div>

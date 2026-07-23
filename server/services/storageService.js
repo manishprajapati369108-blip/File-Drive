@@ -32,7 +32,7 @@ const fileList = async (userId) => {
   if (!userId) {
     return [];
   }
-
+  
   const { data: files, error } = await supabase.storage
     .from("filedrive")
     .list(`uploads/${userId}`);  // ← Only this user's folder!
@@ -40,9 +40,9 @@ const fileList = async (userId) => {
   if (error) {
     throw error;
   }
-
   return files.map(file => ({
     id: file.id,
+    originalname : file.name.replace(/^\d+-/, ""),
     name: file.name,
     filePath: `uploads/${userId}/${file.name}`,
     size: file.metadata?.size || 0,
@@ -52,6 +52,7 @@ const fileList = async (userId) => {
 };
 
 const viewFile = async (savedPath) => {
+  console.log(savedPath)
   const { data, error } = await supabase.storage
     .from("filedrive")
     .createSignedUrl(savedPath, 60);
@@ -60,11 +61,11 @@ const viewFile = async (savedPath) => {
     throw error;
   }
 
-  return data;
+  return data.signedUrl;
 };
 
 const downloadFile = async (savedPath) => {
-  const { data, error } = await supabase.storage
+  const { data , error } = await supabase.storage
     .from("filedrive")
     .download(savedPath);
 
@@ -85,6 +86,7 @@ const removeOneFile = async (savedPath) => {
   }
 
   return data;
+  
 };
 
 const removeAllFile = async () => {

@@ -2,25 +2,31 @@
 import { SlOptionsVertical } from "react-icons/sl";
 import axios from "axios";
 
-const OptionButton = ({ file, onDelete, onRefresh }) => {
+const OptionButton = ({ file, onDelete }) => {
+  
   // ✅ View - Open file in new tab
-  const handleView = async (e) => {
-    const fileClick = e.target.file.filePath
+  const handleView = async () => {
     if (!file?.filePath) {
       alert("File path is missing!");
       return;
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = await localStorage.getItem("token");
 
-      const response = await axios.get(`/api/file/view/${file.filePath}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `/api/file/view/${encodeURIComponent(file.filePath)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
-      if (response.data.url) {
+      console.log(response.data);
+
+      if (response.data.success) {
+        console.log(response.data.url);
         window.open(response.data.url, "_blank");
       }
     } catch (error) {
@@ -39,18 +45,23 @@ const OptionButton = ({ file, onDelete, onRefresh }) => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.get(`/api/file/download/${file.filePath}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `/api/file/download/${encodeURIComponent(file.filePath)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: "blob", // ← Important for file download!
         },
-        responseType: "blob", // ← Important for file download!
-      });
+      );
 
       // Create download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
+
       const link = document.createElement("a");
       link.href = url;
-      link.download = getDisplayName(file.name) || "download";
+      link.download = file.name || "download";
+
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -63,6 +74,7 @@ const OptionButton = ({ file, onDelete, onRefresh }) => {
 
   // ✅ Delete - Delete file with confirmation
   const handleDelete = async () => {
+    console.log("OptionButton props:", file, onDelete);
     if (!file?.filePath) {
       alert("File path is missing!");
       return;
@@ -79,18 +91,28 @@ const OptionButton = ({ file, onDelete, onRefresh }) => {
     try {
       const token = localStorage.getItem("token");
 
-      await axios.delete(`/api/file/remove/${file.filePath}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      await axios.delete(
+        `/api/file/remove-one/${encodeURIComponent(file.filePath)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       alert("File deleted successfully!");
 
       // Call parent callbacks
-      if (onDelete) onDelete(file.id);
-      if (onRefresh) onRefresh();
+      if (onDelete) {
+        onDelete(file.filePath);
+      }
     } catch (error) {
+      console.log("STATUS:", error.response?.status);
+      console.log("DATA:", error.response?.data);
+      console.log("URL:", error.config?.url);
+
+      alert(error.response?.data?.error || "Failed to delete file");
+
       console.error("Delete error:", error);
       alert(error.response?.data?.error || "Failed to delete file");
     }

@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useFiles } from "../context/useFiles";
+import { useNavigate } from "react-router-dom";
+import { GrAddCircle } from "react-icons/gr";
+
 const NavBar = () => {
   const { setFiles }  = useFiles();
+  const navigate = useNavigate();
  
   const handleDeleteAll = async () => {
     const token = localStorage.getItem("token");
@@ -21,8 +25,9 @@ const NavBar = () => {
 
   return (
     <div className="navbar bg-base-200 outline-1 outline-[#ffffff]">
-      <div className="ps-4">
-        <a className="text-lg font-bold">📁 My Files</a>
+      <div className="ps-4 flex items-center">
+        <a className="text-lg font-bold">📁 My Files </a>
+        <span className="ml-3"> <GrAddCircle className="size-6" onClick={()=> { navigate("/home")}} /> </span>
       </div>
       <div className="flex grow justify-end px-2">
         <div className="flex items-stretch">

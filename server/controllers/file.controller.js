@@ -14,37 +14,37 @@ const upload = async (req, res) => {
   try {
     // ✅ Get user ID from JWT
     const userId = req.user.id;
-    
+
     if (!userId) {
       return res.status(401).json({
         success: false,
-        error: "User not authenticated"
+        error: "User not authenticated",
       });
     }
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,
-        error: "No files uploaded"
+        error: "No files uploaded",
       });
     }
 
     // ✅ Pass userId to storageFile
     const paths = await Promise.all(
-      req.files.map((file) => storageFile(file, userId))
+      req.files.map((file) => storageFile(file, userId)),
     );
 
     res.status(201).json({
       success: true,
       message: "Files uploaded successfully",
       files: paths,
-      count: paths.length
+      count: paths.length,
     });
   } catch (error) {
     console.error("Upload error:", error);
     res.status(500).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -54,11 +54,11 @@ const list = async (req, res) => {
   try {
     // ✅ Get user ID from JWT
     const userId = req.user.id;
-    
+
     if (!userId) {
       return res.status(401).json({
         success: false,
-        error: "User not authenticated"
+        error: "User not authenticated",
       });
     }
 
@@ -74,49 +74,53 @@ const list = async (req, res) => {
     console.error("List error:", error);
     res.status(500).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
 const view = async (req, res) => {
   try {
     const { filePath } = req.params;
-    
-    if (!filePath) {
+    const decodePath = decodeURIComponent(filePath);
+
+    if (!decodePath) {
       return res.status(400).json({
         success: false,
-        error: "File path is required"
+        error: "File path is required",
       });
     }
 
-    const result = await viewFile(filePath);
-    
+    const result = await viewFile(decodePath);
+
     res.status(200).json({
       success: true,
-      url: result.signedUrl
+      url: result,
     });
   } catch (error) {
     console.error("View error:", error);
     res.status(500).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
 
 const download = async (req, res) => {
   try {
-
     const { filePath } = req.params;
-    
-    if (!filePath) {
+    const decodePath = decodeURIComponent(filePath);
+
+    if (!decodePath) {
       return res.status(400).json({
         success: false,
-        error: "File path is required"
+        error: "File path is required",
       });
     }
-    const result = await downloadFile(req.body.filePath);
-    res.status(200).json(result);
+    const file = await downloadFile(decodePath);
+    const buffer = Buffer.from(await file.arrayBuffer());
+    
+
+    res.send(buffer);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -125,14 +129,15 @@ const download = async (req, res) => {
 const removeOne = async (req, res) => {
   try {
     const { filePath } = req.params;
-    
-    if (!filePath) {
+    const decodePath = decodeURIComponent(filePath);
+
+    if (!decodePath) {
       return res.status(400).json({
         success: false,
-        error: "File path is required"
+        error: "File path is required",
       });
     }
-    const result = await removeOneFile(req.body.filePath);
+    const result = await removeOneFile(decodePath);
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -148,10 +153,10 @@ const removeAll = async (req, res) => {
       result,
     });
   } catch (error) {
-    
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message });
+      error: error.message,
+    });
   }
 };
 
