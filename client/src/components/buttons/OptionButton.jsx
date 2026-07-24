@@ -158,6 +158,16 @@ const OptionButton = ({ file, onDelete }) => {
             Remove
           </button>
         </li>
+         <li>
+          <button
+            className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
+              transition-all duration-500 ease-in-out"
+            onClick={handleDelete}
+          >
+            Share
+          </button>
+        </li>
+
       </ul>
     </div>
   );
