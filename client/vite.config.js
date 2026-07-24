@@ -1,20 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tailwindcss from '@tailwindcss/vite'
-
+import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),
-    tailwindcss(),
-  ],
+  plugins: [react(), tailwindcss()],
   server: {
     port: 4000,
     strictPort: true,
     open: true,
-     allowedHosts: [
-      'kabob-plywood-deflector.ngrok-free.dev',
-      '.ngrok-free.dev'      // This allows ANY ngrok subdomain (recommended)
+    allowedHosts: [
+      "kabob-plywood-deflector.ngrok-free.dev",
+      ".ngrok-free.dev", // This allows ANY ngrok subdomain (recommended)
     ], // proxy means middle man
     proxy: {
       "/api": {
