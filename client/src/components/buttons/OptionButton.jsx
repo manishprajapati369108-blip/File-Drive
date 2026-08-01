@@ -1,9 +1,14 @@
 // components/buttons/OptionButton.jsx
 import { SlOptionsVertical } from "react-icons/sl";
 import axios from "axios";
+import { useState } from "react";
+import ShareButton from "./ShareButton";
 
 const OptionButton = ({ file, onDelete }) => {
-  
+  const [showShare, setShowShare] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [shareUrl, setShareUrl] = useState("");
+
   // ✅ View - Open file in new tab
   const handleView = async () => {
     if (!file?.filePath) {
@@ -12,11 +17,10 @@ const OptionButton = ({ file, onDelete }) => {
     }
 
     try {
-
       const response = await axios.get(
         `/api/file/view/${encodeURIComponent(file.filePath)}`,
         {
-         withCredentials: true,
+          withCredentials: true,
         },
       );
 
@@ -40,8 +44,6 @@ const OptionButton = ({ file, onDelete }) => {
     }
 
     try {
-      
-
       const response = await axios.get(
         `/api/file/download/${encodeURIComponent(file.filePath)}`,
         {
@@ -84,8 +86,6 @@ const OptionButton = ({ file, onDelete }) => {
     }
 
     try {
-     
-
       await axios.delete(
         `/api/file/remove-one/${encodeURIComponent(file.filePath)}`,
         {
@@ -111,6 +111,28 @@ const OptionButton = ({ file, onDelete }) => {
     }
   };
 
+  const handleShare = async (e) => {
+    e.currentTarget.blur();
+    setShowMenu(false);
+
+    try {
+      const response = await axios.get(
+        `/api/file/view/${encodeURIComponent(file.filePath)}`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (response.data.success) {
+        setShareUrl(response.data.url);
+        setShowShare(true);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Failed to get share URL");
+    }
+  };
+
   // ✅ Helper: Display name (remove timestamp)
   const getDisplayName = (fileName) => {
     if (!fileName) return "";
@@ -122,54 +144,72 @@ const OptionButton = ({ file, onDelete }) => {
   };
 
   return (
-    <div className="dropdown dropdown-bottom dropdown-end">
-      <div tabIndex={0} role="button" className="btn m-1">
-        <SlOptionsVertical />
-      </div>
-      <ul
-        tabIndex="-1"
-        className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm  border border-[white]"
+    <>
+      <div
+        className={`dropdown dropdown-bottom dropdown-end ${showMenu ? "dropdown-open" : ""}`}
       >
-        <li>
-          <button
-            className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
-              transition-all duration-500 ease-in-out"
-            onClick={handleView}
-          >
-            View
-          </button>
-        </li>
-        <li>
+        <div
+          tabIndex={0}
+          role="button"
+          className="btn m-1"
+          onClick={() => setShowMenu((prev) => !prev)}
+        >
           {" "}
-          <button
-            className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
+          <SlOptionsVertical />
+        </div>
+        <ul
+          tabIndex="-1"
+          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm  border border-[white]"
+        >
+          <li>
+            <button
+              className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
               transition-all duration-500 ease-in-out"
-            onClick={handleDownload}
-          >
-            Download
-          </button>
-        </li>
-        <li>
-          <button
-            className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
+              onClick={handleView}
+            >
+              View
+            </button>
+          </li>
+          <li>
+            {" "}
+            <button
+              className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
               transition-all duration-500 ease-in-out"
-            onClick={handleDelete}
-          >
-            Remove
-          </button>
-        </li>
-         <li>
-          <button
-            className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
+              onClick={handleDownload}
+            >
+              Download
+            </button>
+          </li>
+          <li>
+            <button
+              className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
               transition-all duration-500 ease-in-out"
-            onClick={handleDelete}
-          >
-            Share
-          </button>
-        </li>
-
-      </ul>
-    </div>
+              onClick={handleDelete}
+            >
+              Remove
+            </button>
+          </li>
+          <li>
+            <button
+              className="border border-[white]  active:bg-[white] `px-4 py-2 rounded
+              transition-all duration-500 ease-in-out"
+              onClick={handleShare}
+            >
+              Share
+            </button>
+          </li>
+        </ul>
+      </div>
+      {showShare && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <ShareButton
+            text={file.name}
+            url={shareUrl}
+            onClose={() => setShowShare(false)}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
