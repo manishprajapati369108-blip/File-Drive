@@ -10,6 +10,7 @@ import NavBar from "../components/NavBar"
 
 const SavedFile = () => {
   const { files, setFiles }  = useFiles();
+  
   const count = files.length
 
   const location = useLocation();
@@ -94,8 +95,10 @@ const SavedFile = () => {
               <div className="flex-1 min-w-0 text-[#0808ff]">
                 <p className="font-medium truncate">{file.originalname}</p>
               </div>
-              <span className="mr-3"><OptionButton  key={file.id} file={file} onDelete={removeFile} /></span>
-              
+              <span className="mr-3"><OptionButton  key={file.id} file={file} onDelete={removeFile} 
+              /></span>
+
+             
             </div>
           ))}
         </div>
