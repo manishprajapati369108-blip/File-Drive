@@ -1,6 +1,5 @@
 node_modules
 
-.env
 
 
 #frontend
@@ -29,9 +28,4 @@ dist-ssr
 *.sln
 *.sw?
 
-
-
-#backend
-
 .env
-node_modules

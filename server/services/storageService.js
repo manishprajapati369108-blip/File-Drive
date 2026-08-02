@@ -1,6 +1,34 @@
-import { createClient } from "@supabase/supabase-js/dist/index.cjs";
+import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ✅ Create __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log('📁 Current file:', __filename);
+console.log('📁 Current directory:', __dirname);
+
+// ✅ Go up one level to root
+const rootDir = path.resolve(__dirname, '..');
+console.log('📁 Root directory:', rootDir);
+
+// ✅ Load .env from root
+dotenv.config({ path: path.join(rootDir, '.env') });
+
+console.log('🔍 SUPABASE_URL:', process.env.SUPABASE_URL ? '✅ Set' : '❌ Missing');
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SECRET_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('❌ Missing Supabase credentials!');
+  console.error('SUPABASE_URL:', supabaseUrl ? '✅ Set' : '❌ Missing');
+  console.error('SUPABASE_SECRET_KEY:', supabaseKey ? '✅ Set' : '❌ Missing');
+  throw new Error('Supabase configuration is incomplete');
+}
+
 
 const supabase = createClient(
   process.env.SUPABASE_URL,

@@ -9,6 +9,7 @@ const connectDB = async () => {
       maxPoolSize: 10,
       family: 4,
     });
+    console.log("mongoDB Connected");
   } catch (error) {
     console.error(" Database connection failed", error.message);
     console.log(error.message);

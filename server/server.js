@@ -6,7 +6,9 @@ import forgetPassword from "./router/forgetPassword.js"
 import connectDB from "./config/db.js";
 import cookieParser from "cookie-parser";
 import fileStorage from "./router/fileStorage.js";
-dotenv.config();
+
+dotenv.config({path: "../.env" })
+
 
 const app = express();
 app.use(cors({ credentials: true}));
