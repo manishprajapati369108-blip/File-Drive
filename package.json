@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "node server.js",
     "server": "cd server && npm start",
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\""
