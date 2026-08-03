@@ -26,7 +26,7 @@ router.post("/forget-password", async (req, res) => {
 
     // ✅ Generate 6-digit OTP
     const otp = generateRandom(6, "number");
-    console.log("🔢 Generated OTP:", otp);
+    
 
     // ✅ Save OTP with 15-minute expiry
     user.resetOTP = otp;
@@ -183,7 +183,7 @@ router.post("/resend-otp", async (req, res) => {
 
     // ✅ Generate new OTP
     const otp = generateRandom(6, "number");
-    console.log("🔢 New OTP generated:", otp);
+   
 
     // ✅ Save new OTP with 15-minute expiry
     user.resetOTP = otp;

@@ -26,15 +26,6 @@ app.use("/auth", authRoutes);
 app.use("/otp", forgetPassword);
 app.use("/file", fileStorage);
 
-app.get('/debug-cookies', (req, res) => {
-  console.log('🍪 All cookies:', req.cookies);
-  console.log('🍪 Token cookie:', req.cookies.token);
-  res.json({
-    cookies: req.cookies,
-    hasToken: !!req.cookies.token,
-  });
-});
-
 app.get("/", (req, res) => {
   res.json({
     message: "File Drive API is running!",
