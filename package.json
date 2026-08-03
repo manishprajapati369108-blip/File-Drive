@@ -6,7 +6,8 @@
     "start": "node server/server.js",
     "server": "cd server && nodemon server.js ",
     "client": "cd client && vite",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && vite build"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
