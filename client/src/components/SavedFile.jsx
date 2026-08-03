@@ -40,7 +40,6 @@ const SavedFile = () => {
           
         }
 
-        
        // setCount(counted)
       } catch (error) {
         console.error("Error fetching files", error);

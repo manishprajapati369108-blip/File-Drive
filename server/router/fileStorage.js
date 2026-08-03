@@ -12,11 +12,11 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/upload",protect, uploadMiddleware.array("files"), upload);
-router.get("/list",protect, list)
-router.get("/view/:filePath",protect, view);
-router.get("/download/:filePath", protect,download);
-router.delete("/remove-one/:filePath",protect, removeOne);
-router.delete("/remove-all",protect, removeAll);
+router.post("/upload", protect, uploadMiddleware.array("files"), upload);
+router.get("/list", protect, list);
+router.get("/view/:filePath", protect, view);
+router.get("/download/:filePath", protect, download);
+router.delete("/remove-one/:filePath", protect, removeOne);
+router.delete("/remove-all", protect, removeAll);
 
 export default router;
