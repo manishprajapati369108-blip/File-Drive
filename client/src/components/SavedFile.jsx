@@ -19,6 +19,8 @@ const SavedFile = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   useEffect(() => {
     console.log("refreshkey received", refreshKey);
 
@@ -28,7 +30,7 @@ const SavedFile = () => {
         setError("");
 
         
-        const response = await axios.get(`/api/file/list`, {
+        const response = await axios.get(`${api}/file/list`, {
           withCredentials: true,
         }); 
 

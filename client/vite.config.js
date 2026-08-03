@@ -7,8 +7,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 4000,
-    strictPort: true,
-    open: true,
     allowedHosts: [
       "kabob-plywood-deflector.ngrok-free.dev",
       ".ngrok-free.dev", // This allows ANY ngrok subdomain (recommended)

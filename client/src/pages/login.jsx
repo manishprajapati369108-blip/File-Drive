@@ -6,6 +6,7 @@ const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [message, setMessage] = useState("");
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post("api/auth/login", userData, {
+      const response = await axios.post(`${api}/auth/login`, userData, {
         withCredentials: true,
       });
       

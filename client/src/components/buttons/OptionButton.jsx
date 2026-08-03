@@ -3,11 +3,13 @@ import { SlOptionsVertical } from "react-icons/sl";
 import axios from "axios";
 import { useState } from "react";
 import ShareButton from "./ShareButton";
-
+ 
 const OptionButton = ({ file, onDelete }) => {
   const [showShare, setShowShare] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+ 
 
   // ✅ View - Open file in new tab
   const handleView = async () => {
@@ -18,7 +20,7 @@ const OptionButton = ({ file, onDelete }) => {
 
     try {
       const response = await axios.get(
-        `/api/file/view/${encodeURIComponent(file.filePath)}`,
+        `${api}/file/view/${encodeURIComponent(file.filePath)}`,
         {
           withCredentials: true,
         },
@@ -45,7 +47,7 @@ const OptionButton = ({ file, onDelete }) => {
 
     try {
       const response = await axios.get(
-        `/api/file/download/${encodeURIComponent(file.filePath)}`,
+        `${api}/file/download/${encodeURIComponent(file.filePath)}`,
         {
           withCredentials: true,
           responseType: "blob", // ← Important for file download!
@@ -87,7 +89,7 @@ const OptionButton = ({ file, onDelete }) => {
 
     try {
       await axios.delete(
-        `/api/file/remove-one/${encodeURIComponent(file.filePath)}`,
+        `${api}/file/remove-one/${encodeURIComponent(file.filePath)}`,
         {
           withCredentials: true,
         },
@@ -117,7 +119,7 @@ const OptionButton = ({ file, onDelete }) => {
 
     try {
       const response = await axios.get(
-        `/api/file/view/${encodeURIComponent(file.filePath)}`,
+        `${api}/file/view/${encodeURIComponent(file.filePath)}`,
         {
           withCredentials: true,
         },

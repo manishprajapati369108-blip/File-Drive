@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Logout = () => {
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   console.log("Logout Component Loaded");
 
   
@@ -13,7 +14,7 @@ const Logout = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "api/auth/logout",
+        `${api}/auth/logout`,
         {},
         {
           withCredentials: true,

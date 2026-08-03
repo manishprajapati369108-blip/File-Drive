@@ -6,6 +6,8 @@ const DropBox = ({ onUploadSuccess }) => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   const handleUpload = async (selectedFiles) => {
     // ✅ Check if files exist
     if (!selectedFiles || selectedFiles.length === 0) return;
@@ -29,7 +31,7 @@ const DropBox = ({ onUploadSuccess }) => {
     try {
     
 
-      const response = await axios.post("/api/file/upload", formData, {
+      const response = await axios.post(`${api}/file/upload`, formData, {
         withCredentials: true,
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {

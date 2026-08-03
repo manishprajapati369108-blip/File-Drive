@@ -7,10 +7,11 @@ import Logout from "../pages/logout";
 const NavBar = () => {
   const { setFiles } = useFiles();
   const navigate = useNavigate();
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   const handleDeleteAll = async () => {
     try {
-      const response = await axios.delete("/api/file/remove-all/", {
+      const response = await axios.delete(`${api}/file/remove-all/`, {
         withCredentials: true,
       });
 

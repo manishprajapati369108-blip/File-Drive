@@ -15,6 +15,7 @@ const ForgetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(0);
   const inputRefs = useRef([]);
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // ===== SEND OTP =====
   const handleSendOTP = async (e) => {
@@ -24,7 +25,7 @@ const ForgetPassword = () => {
     setMessage("");
 
     try {
-      const res = await axios.post(`api/otp/forget-password`, { email });
+      const res = await axios.post(`${api}/otp/forget-password`, { email });
       setMessage(res.data.message);
       setStep("otp");
       startTimer();
@@ -45,7 +46,7 @@ const ForgetPassword = () => {
     setMessage("");
 
     try {
-      const res = await axios.post(`/api/otp/verify-otp`, {
+      const res = await axios.post(`${api}/otp/verify-otp`, {
         email,
         otp: otpValue,
       });
@@ -79,7 +80,7 @@ const ForgetPassword = () => {
     setMessage("");
 
     try {
-      await axios.post(`/api/otp/reset-password`, {
+      await axios.post(`${api}/otp/reset-password`, {
         tempToken,
         newPassword,
       });
@@ -136,7 +137,7 @@ const ForgetPassword = () => {
     if (timer > 0) return;
     setLoading(true);
     try {
-      await axios.post(`/api/otp/resend-otp`, { email });
+      await axios.post(`${api}/otp/resend-otp`, { email });
       setMessage("New OTP sent successfully!");
       startTimer();
       setOtp(["", "", "", "", "", ""]);

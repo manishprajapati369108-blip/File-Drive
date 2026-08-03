@@ -6,6 +6,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const navigate = useNavigate();
 
   const userData = {
@@ -18,7 +19,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "/api/auth/register",
+       ` ${api}/auth/register`,
         userData,
         { withCredentials: true }
       );
