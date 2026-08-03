@@ -20,7 +20,19 @@ const port = process.env.PORT || 5000;
  
 app.use("/auth", authRoutes);
 app.use("/otp", forgetPassword);
-app.use("/file", fileStorage)
+app.use("/file", fileStorage);
+
+app.get('/', (req, res) => {
+  res.json({
+    message: 'File Drive API is running!',
+    status: '✅ Online',
+    endpoints: {
+      auth: '/auth',
+      files: '/file',
+      otp: '/otp'
+    }
+  });
+});
 
 const start = async () => {
   try {
