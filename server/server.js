@@ -41,44 +41,6 @@ app.get("/", (req, res) => {
 // server/server.js (add this before app.listen)
 
 // ✅ Test email route
-app.get('/test-email', async (req, res) => {
-  try {
-    console.log('🧪 Testing email service...');
-    
-    // Check environment variables
-    const config = {
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD ? '✅ Set' : '❌ Missing',
-      from: process.env.EMAIL_FROM,
-    };
-    console.log('📧 Email config:', config);
-    
-    // Try to send a test email
-    const testResult = await transporter.sendMail({
-      from: `"Test" <${process.env.EMAIL_FROM}>`,
-      to: process.env.EMAIL_FROM, // Send to yourself
-      subject: "Test Email",
-      html: "<h1>Test Email from Render</h1>",
-    });
-    
-    console.log('✅ Email sent:', testResult.messageId);
-    res.json({ 
-      message: 'Email service is working!',
-      messageId: testResult.messageId 
-    });
-    
-  } catch (error) {
-    console.error('❌ Email test failed:', error.message);
-    res.status(500).json({ 
-      error: 'Email service failed',
-      details: error.message,
-      code: error.code,
-      command: error.command
-    });
-  }
-});
 
 const start = async () => {
   try {
