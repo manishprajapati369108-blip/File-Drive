@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+ const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Logout = () => {
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   console.log("Logout Component Loaded");
 
   

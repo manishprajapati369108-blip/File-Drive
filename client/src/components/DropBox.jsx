@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
 import axios from "axios";
+const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const DropBox = ({ onUploadSuccess }) => {
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+ 
 
   const handleUpload = async (selectedFiles) => {
     // ✅ Check if files exist

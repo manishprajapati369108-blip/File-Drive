@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+ const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  
   const navigate = useNavigate();
 
   const userData = {

@@ -3,12 +3,13 @@ import { SlOptionsVertical } from "react-icons/sl";
 import axios from "axios";
 import { useState } from "react";
 import ShareButton from "./ShareButton";
+const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
  
 const OptionButton = ({ file, onDelete }) => {
   const [showShare, setShowShare] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+ 
  
 
   // ✅ View - Open file in new tab

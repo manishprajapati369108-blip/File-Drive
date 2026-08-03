@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import OptionButton from "./buttons/OptionButton";
 import { useFiles } from "../context/useFiles.jsx";
 import NavBar from "../components/NavBar"
+const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const SavedFile = () => {
   const { files, setFiles }  = useFiles();
@@ -19,7 +20,7 @@ const SavedFile = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  
 
   useEffect(() => {
     console.log("refreshkey received", refreshKey);

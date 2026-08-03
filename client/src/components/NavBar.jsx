@@ -3,12 +3,12 @@ import { useFiles } from "../context/useFiles";
 import { useNavigate } from "react-router-dom";
 import { GrAddCircle } from "react-icons/gr";
 import Logout from "../pages/logout";
+const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const NavBar = () => {
   const { setFiles } = useFiles();
   const navigate = useNavigate();
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
+  
   const handleDeleteAll = async () => {
     try {
       const response = await axios.delete(`${api}/file/remove-all/`, {

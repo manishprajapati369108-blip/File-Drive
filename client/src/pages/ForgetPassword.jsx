@@ -1,6 +1,7 @@
 // pages/ForgotPassword.jsx
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+ const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const ForgetPassword = () => {
   // States
@@ -15,7 +16,7 @@ const ForgetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [timer, setTimer] = useState(0);
   const inputRefs = useRef([]);
-  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+ 
 
   // ===== SEND OTP =====
   const handleSendOTP = async (e) => {
