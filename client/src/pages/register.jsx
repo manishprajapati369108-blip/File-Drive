@@ -17,6 +17,8 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+  console.log('📤 Sending to:', `${api}/auth/register`); // ← What URL?
+  console.log('📦 Data:', userData); // ← What data?
 
     try {
       const response = await axios.post(
