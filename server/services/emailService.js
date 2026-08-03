@@ -1,23 +1,33 @@
-import nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
+import { BrevoClient } from "@getbrevo/brevo";
+import dotenv from "dotenv";
+
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT),
-    secure: true,
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD
+const client = new BrevoClient({
+    apiKey: process.env.BREVO_API_KEY,
+})
+
+const sendEmail = async (to, subject, htmlContent) => {
+    try {
+        const response = await client.transactionalEmails.send(
+            {
+                subject,
+                htmlContent,
+                sender: {
+                    name: "file Drive",
+                    email : process.env.EMAIL_FROM,
+                },
+                to: [{email: to}]
+            }
+        );
+         console.log('✅ Email sent successfully!');
+        console.log('📧 Message ID:', response.messageId);
+        return response;
+    } catch (error) {
+        console.error('❌ Email sending failed:');
+        console.error('📧 Error:', error.message);
+        throw error;
     }
-});
+};
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ SMTP connection failed:', error.message);
-  } else {
-    console.log('✅ SMTP connection successful');
-  }
-});
-
-export default transporter;
+export default sendEmail;
