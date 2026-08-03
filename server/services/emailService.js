@@ -9,7 +9,7 @@ const client = new BrevoClient({
 
 const sendEmail = async (to, subject, htmlContent) => {
     try {
-        const response = await client.sendTransacEmail(
+        const response = await client.transactionalEmails.sendTransacEmail(
             {
                 subject,
                 htmlContent,
