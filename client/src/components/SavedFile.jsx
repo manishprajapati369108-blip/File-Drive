@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { FcImageFile } from "react-icons/fc";
 import { Link } from "react-router-dom";
@@ -20,6 +20,7 @@ const SavedFile = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
   
 
   useEffect(() => {
@@ -44,12 +45,14 @@ const SavedFile = () => {
       } catch (error) {
         console.error("Error fetching files", error);
         setError("Failed to load files");
+        navigate("/login")
+
       } finally {
         setLoading(false);
       }
     };
     loadFiles();
-  }, [refreshKey, setFiles]);
+  }, [refreshKey, setFiles, navigate]);
 
   const removeFile = (filePath) => {
     setFiles((prev) => 
