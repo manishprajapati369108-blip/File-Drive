@@ -45,7 +45,7 @@ const SavedFile = () => {
       } catch (error) {
         console.error("Error fetching files", error);
         setError("Failed to load files");
-        navigate("/login")
+
 
       } finally {
         setLoading(false);
