@@ -1,24 +1,37 @@
 import { useState, useRef } from "react";
 import axios from "axios";
-const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const api = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const DropBox = ({ onUploadSuccess }) => {
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
- 
-
   const handleUpload = async (selectedFiles) => {
     // ✅ Check if files exist
     if (!selectedFiles || selectedFiles.length === 0) return;
 
     // ✅ Check TOTAL combined size
-    if (selectedFiles.size > 10 * 1024 * 1024) {
+
+    const totalSize = selectedFiles.reduce(
+      (total, file) => total + file.size,
+      0,
+    );
+
+    if (totalSize > 10 * 1024 * 1024) {
+      alert(
+        `Total file size exceeds 10MB limit! (${(totalSize / 1024 / 1024).toFixed(2)})`,
+      );
+      return;
+    }
+
+    {
+      /*if (selectedFiles.size > 10 * 1024 * 1024) {
       alert(
         `Total file size exceeds 10MB limit! (${(selectedFiles.size / 1024 / 1024).toFixed(2)}MB)`
       );
       return;
+    }*/
     }
 
     const formData = new FormData();
@@ -30,14 +43,12 @@ const DropBox = ({ onUploadSuccess }) => {
     setProgress(0);
 
     try {
-    
-
       const response = await axios.post(`${api}/file/upload`, formData, {
         withCredentials: true,
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
             const percent = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
+              (progressEvent.loaded * 100) / progressEvent.total,
             );
             setProgress(percent);
           }
@@ -110,7 +121,7 @@ const DropBox = ({ onUploadSuccess }) => {
             <div className="w-full mt-6">
               <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                 <div
-                  className="h-3 rounded-full bg-gradient from-blue-500 to-indigo-600 transition-all duration-300"
+                  className="h-3 rounded-full bg-linear-to-r from-blue-500 to-indigo-600 transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
