@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcryptjs'
-import { string } from "zod";
+
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   resetOTP: {
-    type: string,
+    type: String,
     default: null
   },
   resetOTPExpires: {
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     default: null
   },
   resetToken: {
-    type: string,
+    type: String,
     default: null
   },
   resetTokenExpires: {
